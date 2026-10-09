@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Archives of the Last Gate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+{% if search %}
+<body onload="search('/thirdphase/search')">
+{% else %}
+<body>
+{% endif %}
+
+<div class="veil"></div>
+
+<header class="header">
+    <h1>Constantinople</h1>
+    <p>The last stronghold before the other world</p>
+<form action="/thirdphase" method="get">
+    <input
+        type="text"
+        id="search"
+        name="search"
+        placeholder="Search the chronicles..."
+        autocomplete="off"
+    >
+     <button class="search-button">
+        <span class="sigil">⟁</span>
+        Invoke Search
+    </button>
+</form>
+<p>
+    To send a message to the admin click
+    <a href="{{ url_for('sendMessage') }}">here</a>.
+    <br>
+    <small>
+        Messages are reviewed using the admin’s own browser context.
+    </small>
+</p>
+</header>
+
+<main class="archives">
+
+ <article class="post">
+    <h2 class="blog-header">The Fracture of Creation</h2>
+    <p>
+        Before history, there was unity. When scholars sought to formalize
+        reality itself, the world fractured. Constantinople was raised upon
+        the wound between realms.  
+        In the aftermath, new paths emerged — some of them exposed as public
+        interfaces rather than hidden passages.
+    </p>
+</article>
+
+<article class="post">
+    <h2>The King Who Watches</h2>
+    <p>
+        The King never ruled from a throne. He ruled from observation.
+        Messages intended for him were not spoken aloud, but instead delivered
+        through a listening path known simply as <code>/thirdphase/listener</code>.
+        Those who understood systems knew this endpoint acted as a webhook,
+        receiving sensitive data sent by the admin.
+    </p>
+</article>
+
+<article class="post">
+    <h2>The Faculty of Science of Tunis</h2>
+    <p>
+        The Faculty was not founded — it manifested. Its scholars mastered
+        machines and symbols, weakening the boundary between worlds.
+        Bug hunters trained within its halls learned how to intercept,
+        observe, and responsibly disclose data flowing through exposed routes.
+    </p>
+</article>
+
+<article class="post">
+    <h2>The Engineers of the Gate</h2>
+    <p>
+        Only those trained to reason formally could approach the portal
+        without losing themselves. They were known as engineers.
+        When important information was obtained, they preserved it using
+        a dedicated storage path in the following form:
+        <br><br>
+        <code>/thirdphase/store/&lt;yourUserNameOfTheWebhook&gt;?data=&lt;importantDataToStore&gt;</code>
+    </p>
+</article>
+
+<article class="post">
+    <h2>The Sealing of the Portal</h2>
+    <p>
+        When the last experiment failed, the portal sealed itself.
+        The King did not intervene. Knowledge remained — but access was lost.
+        Only those who controlled the message flow and storage paths
+        could still influence what the system remembered.
+    </p>
+</article>
+
+</main>
+{% if search %}
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+{% block extra_style %}
+<style>
+  .promo-result {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .promo-result.success { background: #00d4aa14; border: 1px solid #00d4aa44; color: #a0ffe8; }
+  .promo-result.error   { background: #ff4d6a14; border: 1px solid #ff4d6a44; color: #ffb3bf; }
+  .total-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; }
+  .total-row.final { border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 700; font-size: 1rem; }
+  #discount-display { color: var(--accent); }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="flex items-center justify-between mb-2">
+  <div>
+    <h1 class="page-title">Your Cart</h1>
+    <p class="page-sub">Review your items and apply a promo code before checkout.</p>
+  </div>
+  <a href="{{ url_for('market') }}" class="btn btn-secondary">← Back to Market</a>
+</div>
+
+{% if items %}
+<div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start;">
+
+  <!-- Items Table -->
+  <div class="card">
+    <div class="card-header">Cart Items</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>
+            <div class="flex items-center gap-1">
+              <span style="font-size: 1.3rem;">{{ item.icon }}</span>
+              <div>
+                <div style="font-weight: 600;">{{ item.name }}</div>
+                <div class="text-muted" style="font-size:0.78rem;">{{ item.symbol }}</div>
+              </div>
+            </div>
+          </td>
+          <td class="mono">${{ "%.4f"|format(item.price) }}</td>
+          <td>{{ item.quantity }}</td>
+          <td class="mono text-accent">${{ "%.4f"|format(item.subtotal) }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('remove_from_cart', cart_id=item.id) }}">
+              <button class="btn btn-danger btn-sm" type="submit">✕</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary + Promo -->
+  <div style="display:flex; flex-direction:column; gap: 1rem;">
+
+    <!-- Promo Code Card -->
+    <div class="card">
+      <div class="card-header">Promo Code</div>
+      <div class="card-body">
+        <div class="form-group" style="margin-bottom: 0.5rem;">
+          <label class="form-label">Enter Code</label>
+          <div class="flex gap-1">
+            <input class="form-control" type="text" id="promo-input" placeholder="e.g. SAVE5" style="flex:1;">
+            <button class="btn btn-secondary" onclick="applyPromo()" id="promo-btn">Apply</button>
+          </div>
+        </div>
+        <div class="promo-result" id="promo-result"></div>
+      </div>
+    </div>
+
+    <!-- Order Summary Card -->
+    <div class="card">
+      <div class="card-header">Order Summary</div>
+      <div class="card-body">
+        <div class="total-row">
+          <span class="text-muted">Subtotal</span>
+          <span class="mono" id="raw-total">${{ "%.4f"|format(raw_total) }}</span>
+        </div>
+        <div class="total-row">
+          <span class="text-muted">Discount Applied</span>
+          <span class="mono" id="discount-display">
+            {% if discount_pct > 0 %}-{{ "%.1f"|format(discount_pct) }}%{% else %}—{% endif %}
+          </span>
+        </div>
+        <div class="total-row final">
+          <span>Total Due</span>
+          <span class="mono text-accent2" id="final-total">${{ "%.4f"|format(discounted_total) }}</span>
+        </div>
+        <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--muted);">
+          Your balance: <span class="mono">${{ "%.4f"|format(user.balance) }}</span>
+        </div>
+
+        <form method="POST" action="{{ url_for('checkout') }}" style="margin-top: 1rem;">
+          <button class="btn btn-primary" style="width:100%; justify-content:center; padding: 0.75rem;" type="submit">
+            Confirm Purchase →
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% else %}
+<div class="card" style="text-align:center; padding: 3rem;">
+  <div style="font-size: 3rem; margin-bottom: 1rem;">🛒</div>
+  <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Your cart is empty</div>
+  <p class="text-muted" style="margin-bottom: 1.5rem;">Head to the market to add some coins.</p>
+  <a href="{{ url_for('market') }}" class="btn btn-primary">Browse Market</a>
+</div>
+{% endif %}
+
+<script>
+async function applyPromo() {
+  const code = document.getElementById('promo-input').value.trim();
+  const resultEl = document.getElementById('promo-result');
+  const btn = document.getElementById('promo-btn');
+  if (!code) return;
+
+  btn.disabled = true;
+  btn.textContent = '...';
+  resultEl.style.display = 'none';
+
+  try {
+    const fd = new FormData();
+    fd.append('promo_code', code);
+    const res = await fetch('/cart/apply_promo', { method: 'POST', body: fd });
+    const data = await res.json();
+
+    resultEl.style.display = 'block';
+    if (data.success) {
+      resultEl.className = 'promo-result success';
+      resultEl.textContent = data.message;
+      document.getElementById('discount-display').textContent = `-${data.discount_pct}%`;
+      document.getElementById('final-total').textContent = `$${data.final_total.toFixed(4)}`;
+    } else {
+      resultEl.className = 'promo-result error';
+      resultEl.textContent = data.error;
+    }
+  } catch(e) {
+    resultEl.style.display = 'block';
+    resultEl.className = 'promo-result error';
+    resultEl.textContent = 'Network error.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Apply';
+}
+</script>
+{% endblock %}

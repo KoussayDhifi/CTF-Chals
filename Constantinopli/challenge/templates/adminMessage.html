@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Whisper to the Watcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_message.css') }}">
+</head>
+<body>
+
+<div class="veil"></div>
+
+<main class="terminal">
+    <h1>Message the Watcher</h1>
+    <p class="lore">
+        All messages sent through this channel are reviewed by the Watcher himself.
+        Choose your words carefully. Knowledge has consequences.
+    </p>
+
+    <form method="POST">
+        <label for="message">Encoded Transmission</label>
+        <textarea
+            id="message"
+            name="url"
+            placeholder="Speak your truth(URL the payload YO I SHOULD NOT BE HINTING THIS SINCE THIS IS HARD) to the King..."
+            required
+        ></textarea>
+
+        <button type="submit">Send to Constantinople</button>
+    </form>
+
+    <div class="warning">
+        ⚠ Messages are processed automatically. Improper formatting may cause unpredictable effects.
+    </div>
+</main>
+
+</body>
+</html>

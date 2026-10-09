@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Walid Trading{% endblock %} — WT Exchange</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #080c10;
+      --surface:   #0e1520;
+      --card:      #131d2b;
+      --border:    #1e2d40;
+      --accent:    #00d4aa;
+      --accent2:   #f0b429;
+      --danger:    #ff4d6a;
+      --text:      #e2eaf4;
+      --muted:     #5a7a99;
+      --radius:    8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, #00d4aa12, transparent),
+        radial-gradient(ellipse 60% 40% at 90% 80%, #f0b42908, transparent);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .nav-brand span { color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); text-decoration: none; }
+    .nav-balance {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--accent2);
+    }
+
+    /* CONTAINER */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ALERTS */
+    .alerts { margin-bottom: 1.5rem; }
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid;
+    }
+    .alert-success { background: #00d4aa14; border-color: var(--accent); color: #a0ffe8; }
+    .alert-danger  { background: #ff4d6a14; border-color: var(--danger); color: #ffb3bf; }
+    .alert-warning { background: #f0b42914; border-color: var(--accent2); color: #ffe0a0; }
+    .alert-info    { background: #3a8fff14; border-color: #3a8fff; color: #a0c8ff; }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .card-body { padding: 1.25rem; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #080c10;
+    }
+    .btn-primary:hover { background: #00bfa0; color: #080c10; text-decoration: none; }
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+    .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
+
+    /* FORMS */
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.88rem;
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--accent); }
+    .form-control::placeholder { color: var(--muted); }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid #131d2b; font-size: 0.9rem; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #0e1520; }
+
+    /* MISC */
+    .mono { font-family: 'Space Mono', monospace; }
+    .text-accent  { color: var(--accent); }
+    .text-accent2 { color: var(--accent2); }
+    .text-muted   { color: var(--muted); }
+    .text-danger  { color: var(--danger); }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .badge-accent  { background: #00d4aa22; color: var(--accent); border: 1px solid #00d4aa44; }
+    .badge-gold    { background: #f0b42922; color: var(--accent2); border: 1px solid #f0b42944; }
+    .badge-danger  { background: #ff4d6a22; color: var(--danger); border: 1px solid #ff4d6a44; }
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 0.5rem; }
+    .gap-2 { gap: 1rem; }
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+    .page-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+  {% block extra_style %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">⬡ <span>Walid</span>Trading</div>
+  <div class="nav-links">
+    {% if session.user_id %}
+      <a href="{{ url_for('market') }}" {% if request.endpoint == 'market' %}class="active"{% endif %}>Market</a>
+      <a href="{{ url_for('cart') }}" {% if request.endpoint == 'cart' %}class="active"{% endif %}>Cart</a>
+      <a href="{{ url_for('wallet') }}" {% if request.endpoint == 'wallet' %}class="active"{% endif %}>Wallet</a>
+      {% if current_user() %}
+        <span class="nav-balance mono">💰 ${{ "%.2f"|format(current_user().balance) }}</span>
+      {% endif %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="container">
+  <div class="alerts">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+  </div>
+  {% block content %}{% endblock %}
+</div>
+
+<div style="text-align:center; padding: 2rem; color: var(--muted); font-size:0.78rem; border-top: 1px solid var(--border); margin-top: 3rem;">
+  © 2024 Walid Trading Platform — All rights reserved — Admin: <a href="mailto:admin@walid-trading.com">admin@walid-trading.com</a>
+</div>
+</body>
+</html>

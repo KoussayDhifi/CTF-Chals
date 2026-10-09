@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  flask-ctf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fst-multiverse-messenger-ctf
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    networks:
+      - ctf-network
+
+networks:
+  ctf-network:
+    driver: bridge

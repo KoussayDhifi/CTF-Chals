@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mark Your Name in the Archive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+<div class="auth-box">
+    <h1>🜏 The Archive Awaits</h1>
+    <p class="subtitle">
+        To claim what you steal, you must first leave your name.
+    </p>
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Chosen Name" required>
+        <input type="password" name="password" placeholder="Secret Phrase" required>
+        <button type="submit">Mark the Archive</button>
+    </form>
+
+    <p class="link">
+        Already inscribed?
+        <a href="/thirdphase/login">Enter the Archive</a>
+    </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate-Harder</title>
+       <style>
+@keyframes filmGrain {
+  0% { transform: translate(0,0); }
+  20% { transform: translate(-1px,1px); }
+  40% { transform: translate(1px,-1px); }
+  60% { transform: translate(-1px,-1px); }
+  80% { transform: translate(1px,1px); }
+  100% { transform: translate(0,0); }
+}
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Patrick+Hand&display=swap');
+
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #fff; /* temp white */
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: difference; /* makes subtle flicker effect */
+  animation: filmGrain 0.25s infinite;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  font-family: 'Patrick Hand', cursive;
+  overflow: hidden;
+}
+
+/* Grain overlay */
+
+
+/* Main container */
+.game {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Character on top */
+.character-top {
+  height: 45vh;
+  background: #0a0a0a; /* dark fallback behind image */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-bottom: 6px solid #000;
+}
+
+
+.character-top img {
+  height: 95%;
+  filter: drop-shadow(10px 10px 0 #000);
+}
+
+/* Dialogue panel */
+.dialogue-panel {
+  flex: 1;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Dialogue log */
+.dialogue-log {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 1.4em;
+}
+
+/* NPC */
+.npc-message {
+  border-left: 6px solid #ffcc4d;
+  padding: 15px;
+  background: #111;
+  white-space: pre-line;
+}
+
+/* Player */
+.player-message {
+  align-self: flex-end;
+  background: #1e90ff;
+  padding: 12px 16px;
+  max-width: 80%;
+  border-radius: 10px 10px 0 10px;
+}
+
+/* Input */
+.dialogue-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dialogue-input input {
+  flex: 1;
+  padding: 12px;
+  font-size: 1.1em;
+  border-radius: 10px;
+  border: none;
+}
+
+.dialogue-input button {
+  font-family: 'Luckiest Guy', cursive;
+  background: #ffcc4d;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+</style>
+
+    <script>
+        window.__nonce = "{{ nonce }}";
+        
+          const giveSecret = async () => {
+            await fetch("/activate-flag", {
+                method: "POST",
+                headers : {
+                    "X-Nonce" : window.__nonce,
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({ message: "{{ message }}" }),
+                credentials: "include" 
+            })
+            
+            location.href = "/flag"
+            
+        }
+        
+        
+        
+
+  
+    </script>
+</head>
+<body>
+  <div class="game">
+
+   
+    <div class="character-top">
+      <img src="{{ url_for('static', filename='images/AbdoDhifi.png') }}" alt="Mr. Window">
+    </div>
+
+   
+    <div class="dialogue-panel">
+
+      <div class="dialogue-log" id="dialogueLog">
+        <div class="npc-message typewriter" data-text="
+Hey. Name’s DarkMoon. You met my brother? He’s the friendly one, always in front of easy doors.
+
+Oh… you’re asking about the Sultan’s Palace? Well, I’m the one standing in front of it, and I can tell you… it’s a very fine place. But the gate is closed, and I cannot open it for you.
+
+How to open it, you ask? You, my friend… curious as my brother said. Sadly, here we deal with esprit‑prepa, and patience is the key.
+
+What do you think about reading some Qur’an for the night? Or pray Tarawih if there’s time left. The night is long, and reflection will serve you better than haste.
+        ">
+        </div>
+
+        {% if message %}
+        <div class="player-message">
+          {{ message | safe }}
+        </div>
+        {% endif %}
+      </div>
+
+      <form method="GET" class="dialogue-input">
+        <input type="text" name="message" placeholder="Speak to DarkMoon ..." autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+
+    </div>
+  </div>
+  <script>
+  document.querySelectorAll(".typewriter").forEach(el => {
+    const text = el.dataset.text.trim();
+    el.textContent = "";
+    let i = 0;
+
+    const speed = 30; 
+
+    function type() {
+      if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+        setTimeout(type, speed);
+      }
+    }
+
+    type();
+  });
+</script>
+
+</body>
+
+
+</html>
+
+
+

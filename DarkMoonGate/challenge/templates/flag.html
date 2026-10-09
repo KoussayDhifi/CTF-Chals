@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLAG</title>
+<style>
+  /* Body */
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #0a0a0a, #000 80%);
+    font-family: 'Patrick Hand', cursive;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  /* Sparkles */
+  .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffcc00;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: sparkleAnim 2s infinite;
+  }
+
+  @keyframes sparkleAnim {
+    0% { transform: translate(0,0) scale(0.5); opacity: 0.2; }
+    50% { transform: translate(var(--x), var(--y)) scale(1); opacity: 1; }
+    100% { transform: translate(0,0) scale(0.5); opacity: 0.2; }
+  }
+
+  /* Flag container */
+  .flag-box {
+    text-align: center;
+    z-index: 10;
+    animation: fadeIn 2s ease-out forwards;
+    opacity: 0;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin: 0.5em 0;
+    text-shadow: 2px 2px #000, 0 0 10px #ffcc00;
+    letter-spacing: 2px;
+  }
+
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="flag-box">
+    <h1>Nice job, kid!</h1>
+    <h1>FLAG: {{ FLAG }}</h1>
+</div>
+
+
+<script>
+  const colors = ["#ffcc00","#00ffff","#ff00ff","#ffffff"];
+  for(let i=0;i<50;i++){
+    const s = document.createElement("div");
+    s.classList.add("sparkle");
+    s.style.setProperty("--x", (Math.random()*200-100)+"px");
+    s.style.setProperty("--y", (Math.random()*200-100)+"px");
+    s.style.left = Math.random()*100+"vw";
+    s.style.top = Math.random()*100+"vh";
+    s.style.background = colors[Math.floor(Math.random()*colors.length)];
+    s.style.animationDuration = (Math.random()*2+1)+"s";
+    document.body.appendChild(s);
+  }
+</script>
+
+</body>
+</html>

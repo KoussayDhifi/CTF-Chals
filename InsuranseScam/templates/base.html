@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}InsuranseHorizon{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy:   #0b1f3a;
+            --navy2:  #112649;
+            --gold:   #c9a84c;
+            --gold2:  #e8c97a;
+            --cream:  #f5f0e8;
+            --white:  #ffffff;
+            --text:   #1a2a3a;
+            --muted:  #6b7f96;
+            --border: #d6cfc2;
+            --danger: #c0392b;
+            --success:#27ae60;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NAV ── */
+        nav {
+            background: var(--navy);
+            border-bottom: 2px solid var(--gold);
+            padding: 0 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            text-decoration: none;
+        }
+        .nav-brand .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--gold);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .nav-brand span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: .02em;
+        }
+        .nav-brand span em {
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .nav-links { display: flex; gap: 0; list-style: none; }
+        .nav-links a {
+            color: rgba(255,255,255,.75);
+            text-decoration: none;
+            font-size: .88rem;
+            font-weight: 500;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            padding: .5rem 1.1rem;
+            border-radius: 4px;
+            transition: color .2s, background .2s;
+        }
+        .nav-links a:hover { color: var(--gold2); background: rgba(255,255,255,.05); }
+        .nav-links a.active { color: var(--gold2); }
+
+        .nav-cta a {
+            background: var(--gold);
+            color: var(--navy);
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: .55rem 1.4rem;
+            border-radius: 4px;
+            transition: background .2s;
+        }
+        .nav-cta a:hover { background: var(--gold2); }
+
+        /* ── MAIN ── */
+        main { flex: 1; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy);
+            color: rgba(255,255,255,.4);
+            text-align: center;
+            font-size: .78rem;
+            padding: 1.4rem;
+            border-top: 1px solid rgba(201,168,76,.25);
+            letter-spacing: .03em;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+
+        /* ── FLASH / ALERTS ── */
+        .alert {
+            padding: .85rem 1.2rem;
+            border-radius: 5px;
+            font-size: .9rem;
+            margin-bottom: 1.2rem;
+        }
+        .alert-danger  { background: #fdecea; border-left: 3px solid var(--danger); color: var(--danger); }
+        .alert-success { background: #eafaf1; border-left: 3px solid var(--success); color: var(--success); }
+
+        /* ── UTILS ── */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .badge {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            padding: .22rem .7rem;
+            border-radius: 3px;
+        }
+        .badge-gold  { background: var(--gold); color: var(--navy); }
+        .badge-navy  { background: var(--navy); color: var(--gold); }
+        .badge-green { background: #d5f0e0; color: #1a6636; }
+        .badge-red   { background: #fde8e8; color: #8b1a1a; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+<nav>
+    <a href="/" class="nav-brand">
+        <div class="logo-icon">🛡</div>
+        <span>Insuranse<em>Horizon</em></span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="{{ url_for('policies') }}">Policies</a></li>
+        <li><a href="#">Claims</a></li>
+        {% if session.username %}
+        <li><a href="/logout">Logout</a></li>
+        {% endif %}
+    </ul>
+    <div class="nav-cta">
+        {% if not session.username %}
+        <a href="/login">Client Login</a>
+        {% else %}
+        <a href="{{ '/admin' if session.role == 'admin' else '/dashboard' }}">My Account</a>
+        {% endif %}
+    </div>
+</nav>
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer>
+    &copy; 2024 InsuranseHorizon Ltd. — All rights reserved. &nbsp;|&nbsp;
+    <a href="/source">Source</a>
+</footer>
+</body>
+</html>

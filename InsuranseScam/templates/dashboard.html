@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard — InsuranseHorizon{% endblock %}
+
+{% block extra_head %}
+<style>
+    .dash-header {
+        background: var(--navy);
+        color: var(--white);
+        padding: 2.8rem 2rem;
+        border-bottom: 2px solid var(--gold);
+    }
+    .dash-header-inner {
+        max-width: 1100px; margin: 0 auto;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .dash-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+    }
+    .dash-header p { color: rgba(255,255,255,.55); font-size: .9rem; margin-top: .3rem; }
+
+    .dash-body { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    .dash-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .dash-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.6rem;
+    }
+    .dash-card .card-label {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: .6rem;
+    }
+    .dash-card .card-value {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.7rem;
+        color: var(--navy);
+    }
+    .dash-card .card-sub { font-size: .82rem; color: var(--muted); margin-top: .3rem; }
+
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        color: var(--navy);
+        margin-bottom: 1.2rem;
+        padding-bottom: .6rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin-bottom: 2rem;
+    }
+    th {
+        background: var(--navy);
+        color: rgba(255,255,255,.75);
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: .9rem 1.2rem;
+        text-align: left;
+    }
+    td {
+        padding: .9rem 1.2rem;
+        font-size: .9rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf8f5; }
+
+    .notice-box {
+        background: #fff8e6;
+        border: 1px solid #e8c97a;
+        border-left: 4px solid var(--gold);
+        border-radius: 6px;
+        padding: 1.1rem 1.3rem;
+        font-size: .88rem;
+        color: #6b5000;
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dash-header">
+    <div class="dash-header-inner">
+        <div>
+            <h1>Welcome back, {{ session.full_name }}</h1>
+            <p>Policy Holder &nbsp;·&nbsp; {{ session.policy_number }}</p>
+        </div>
+        <span class="badge badge-gold">Active Policy</span>
+    </div>
+</div>
+
+<div class="dash-body">
+    <div class="dash-grid">
+        <div class="dash-card">
+            <div class="card-label">Policy Number</div>
+            <div class="card-value">{{ session.policy_number }}</div>
+            <div class="card-sub">Health + Auto Bundle</div>
+        </div>
+        <div class="dash-card">
+            <div class="card-label">Total Claims Filed</div>
+            <div class="card-value">7</div>
+            <div class="card-sub">Since policy inception</div>
+        </div>
+        <div class="dash-card">
+            <div class="card-label">Claims Approved</div>
+            <div class="card-value" style="color:var(--danger)">2 / 7</div>
+            <div class="card-sub">Rejection rate: 71%</div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Recent Claims</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Claim ID</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>CLM-20240891</td><td>2024-11-01</td><td>Health — Surgery</td>
+                <td>$12,400</td><td><span class="badge badge-red">Rejected</span></td>
+                <td>Policy Clause 7.4.2</td>
+            </tr>
+            <tr>
+                <td>CLM-20240755</td><td>2024-09-14</td><td>Auto — Collision</td>
+                <td>$3,200</td><td><span class="badge badge-red">Rejected</span></td>
+                <td>Administrative Oversight</td>
+            </tr>
+            <tr>
+                <td>CLM-20240612</td><td>2024-07-03</td><td>Health — Outpatient</td>
+                <td>$880</td><td><span class="badge badge-green">Approved</span></td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>CLM-20240490</td><td>2024-05-19</td><td>Health — Prescription</td>
+                <td>$240</td><td><span class="badge badge-red">Rejected</span></td>
+                <td>Pre-existing Condition</td>
+            </tr>
+            <tr>
+                <td>CLM-20240311</td><td>2024-03-07</td><td>Auto — Theft</td>
+                <td>$8,000</td><td><span class="badge badge-red">Rejected</span></td>
+                <td>Internal Review Pending</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="notice-box">
+        ⚠️ <strong>Notice:</strong> Your most recent claim <strong>CLM-20240891</strong> was rejected under Policy Clause 7.4.2.
+        If you believe this decision was incorrect, please contact our claims department.
+        Due to high volume, internal reviews may take 6–10 weeks.
+    </div>
+</div>
+{% endblock %}

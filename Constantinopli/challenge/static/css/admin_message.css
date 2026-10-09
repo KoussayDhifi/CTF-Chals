@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=JetBrains+Mono&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #2a0036, #0b0012 70%);
+    color: #e6d9ff;
+    font-family: 'Cinzel', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.veil {
+    position: fixed;
+    inset: 0;
+    background: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.terminal {
+    position: relative;
+    background: rgba(20, 0, 35, 0.92);
+    border: 1px solid #6b2cff;
+    box-shadow:
+        0 0 30px rgba(107, 44, 255, 0.3),
+        inset 0 0 40px rgba(0, 0, 0, 0.8);
+    padding: 2.5rem;
+    max-width: 600px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-top: 0;
+    text-align: center;
+    color: #b18cff;
+    letter-spacing: 1px;
+}
+
+.lore {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #c9b6ff;
+}
+
+textarea {
+    width: 100%;
+    min-height: 160px;
+    background: #0d0018;
+    color: #e6d9ff;
+    border: 1px solid #4c1fa3;
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+textarea::placeholder {
+    color: #6f5a9c;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #9b6bff;
+    box-shadow: 0 0 12px rgba(155, 107, 255, 0.4);
+}
+
+button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, #6b2cff, #3c0a6f);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    box-shadow: 0 0 20px rgba(107, 44, 255, 0.6);
+    transform: translateY(-1px);
+}
+
+.warning {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+    text-align: center;
+    color: #ff9bd1;
+}

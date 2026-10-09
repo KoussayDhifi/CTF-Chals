@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel — InsuranseHorizon{% endblock %}
+
+{% block extra_head %}
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #1a0a00, #3a1200);
+        border-bottom: 2px solid #c0392b;
+        padding: 2.5rem 2rem;
+        color: var(--white);
+    }
+    .admin-header-inner {
+        max-width: 1100px; margin: 0 auto;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .admin-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.7rem;
+        color: #ff9e8a;
+    }
+    .admin-header p { color: rgba(255,200,180,.55); font-size: .88rem; margin-top: .25rem; }
+
+    .admin-body { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    .flag-box {
+        background: var(--navy);
+        border: 1px solid var(--gold);
+        border-radius: 10px;
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+    }
+    .flag-box .label {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: .7rem;
+    }
+    .flag-value {
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        color: var(--gold2);
+        background: rgba(0,0,0,.4);
+        padding: .9rem 1.2rem;
+        border-radius: 6px;
+        word-break: break-all;
+        border: 1px solid rgba(201,168,76,.2);
+    }
+
+    .admin-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+        margin-bottom: 2.5rem;
+    }
+    .admin-stat {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.4rem;
+        text-align: center;
+    }
+    .admin-stat .val {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        color: var(--navy);
+    }
+    .admin-stat .lbl {
+        font-size: .73rem;
+        color: var(--muted);
+        letter-spacing: .07em;
+        text-transform: uppercase;
+        margin-top: .2rem;
+    }
+
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        color: var(--navy);
+        margin-bottom: 1rem;
+        padding-bottom: .5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    th {
+        background: var(--navy);
+        color: rgba(255,255,255,.7);
+        font-size: .73rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: .8rem 1.1rem;
+        text-align: left;
+    }
+    td { padding: .8rem 1.1rem; font-size: .88rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div class="admin-header-inner">
+        <div>
+            <h1>⚠ Administrative Panel</h1>
+            <p>Restricted access — authorised personnel only</p>
+        </div>
+        <span class="badge" style="background:#c0392b;color:#fff">ADMIN</span>
+    </div>
+</div>
+
+<div class="admin-body">
+    <div class="flag-box">
+        <div class="label">🏁 Confidential Data — Challenge Flag</div>
+        <div class="flag-value">{{ flag }}</div>
+    </div>
+
+    <div class="admin-grid">
+        <div class="admin-stat"><div class="val">240,814</div><div class="lbl">Total Policies</div></div>
+        <div class="admin-stat"><div class="val">$48.2M</div><div class="lbl">Denied Claims (YTD)</div></div>
+        <div class="admin-stat"><div class="val">71%</div><div class="lbl">Rejection Rate</div></div>
+        <div class="admin-stat"><div class="val">3</div><div class="lbl">Active Users</div></div>
+    </div>
+
+    <h2 class="section-title">Registered Users</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Username</th><th>Full Name</th><th>Policy No.</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>admin</td><td>System Administrator</td><td>ADM-0001</td><td><span class="badge badge-navy">Admin</span></td></tr>
+            <tr><td>2</td><td>jdoe</td><td>John Doe</td><td>POL-4821</td><td><span class="badge" style="background:#e8f0ff;color:#112649">User</span></td></tr>
+            <tr><td>3</td><td>msmith</td><td>Mary Smith</td><td>POL-3374</td><td><span class="badge" style="background:#e8f0ff;color:#112649">User</span></td></tr>
+            <tr><td>4</td><td>rjohnson</td><td>Robert Johnson</td><td>POL-9102</td><td><span class="badge" style="background:#e8f0ff;color:#112649">User</span></td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

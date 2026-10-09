@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}Policy Search — InsuranseHorizon{% endblock %}
+
+{% block extra_head %}
+<style>
+    .search-wrapper {
+        max-width: 800px; margin: 3rem auto; padding: 0 2rem;
+    }
+    .search-header {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        color: var(--navy);
+        margin-bottom: .5rem;
+    }
+    .search-sub { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+    .search-form { display: flex; gap: 1rem; margin-bottom: 2rem; }
+    .search-form input {
+        flex: 1;
+        padding: .75rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 6px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: .95rem;
+        background: var(--cream);
+        outline: none;
+    }
+    .search-form input:focus { border-color: var(--navy); background: var(--white); }
+    .search-form button {
+        background: var(--navy);
+        color: var(--white);
+        border: none;
+        border-radius: 6px;
+        padding: .75rem 1.8rem;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s;
+    }
+    .search-form button:hover { background: var(--navy2); }
+
+    .section-label {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: .8rem;
+        margin-top: 2.5rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+    th {
+        background: var(--navy);
+        color: rgba(255,255,255,.7);
+        font-size: .75rem;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: .8rem 1.1rem;
+        text-align: left;
+    }
+    td { padding: .8rem 1.1rem; font-size: .9rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+
+    .policy-num {
+        font-family: 'Courier New', monospace;
+        color: var(--navy);
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: underline dotted;
+    }
+    .policy-num:hover { color: var(--gold); }
+
+    .no-results { color: var(--muted); font-size: .9rem; margin-top: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="search-wrapper">
+    <h1 class="search-header">Policy Lookup</h1>
+    <p class="search-sub">Enter a policy number to retrieve holder information.</p>
+
+    <form method="POST" class="search-form" id="searchForm">
+        <input type="text" name="search" id="searchInput" placeholder="e.g. POL-4821" />
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if results is not none %}
+        {% if results %}
+        <p class="section-label">Search Results</p>
+        <table>
+            <thead>
+                <tr><th>Full Name</th><th>Policy Number</th><th>Role</th></tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-results">No policy found matching that number.</p>
+        {% endif %}
+    {% endif %}
+
+    <!-- Known active policies — click to autofill -->
+    <p class="section-label">Registered Policies</p>
+    <table>
+        <thead>
+            <tr><th>Full Name</th><th>Policy Number</th><th>Coverage</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td><span class="policy-num" onclick="fill('POL-4821')">POL-4821</span></td>
+                <td>Health + Auto</td>
+                <td><span class="badge badge-green">Active</span></td>
+            </tr>
+            <tr>
+                <td>Mary Smith</td>
+                <td><span class="policy-num" onclick="fill('POL-3374')">POL-3374</span></td>
+                <td>Health</td>
+                <td><span class="badge badge-green">Active</span></td>
+            </tr>
+            <tr>
+                <td>Robert Johnson</td>
+                <td><span class="policy-num" onclick="fill('POL-9102')">POL-9102</span></td>
+                <td>Auto</td>
+                <td><span class="badge badge-red">Claim Pending</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Click a policy number to autofill the search box
+    function fill(val) {
+        document.getElementById('searchInput').value = val;
+        document.getElementById('searchForm').submit();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Market{% endblock %}
+{% block content %}
+
+<div class="flex items-center justify-between mb-2">
+  <div>
+    <h1 class="page-title">Live Market</h1>
+    <p class="page-sub">Browse and add coins to your cart. You have <span class="mono text-accent2">${{ "%.2f"|format(user.balance) }}</span> available.</p>
+  </div>
+  <a href="{{ url_for('cart') }}" class="btn btn-secondary">🛒 View Cart</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+  {% for coin in coins %}
+  <div class="card" style="{% if coin.symbol == 'FLAG' %}border-color: #f0b42966; background: linear-gradient(135deg, #131d2b, #1a1500);{% endif %}">
+    <div class="card-body">
+      <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
+        <div style="font-size: 1.8rem; line-height:1;">{{ coin.icon }}</div>
+        {% if coin.symbol == 'FLAG' %}
+          <span class="badge badge-gold">⚠ RARE</span>
+        {% else %}
+          <span class="badge badge-accent">{{ coin.symbol }}</span>
+        {% endif %}
+      </div>
+      <div style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.2rem;">{{ coin.name }}</div>
+      <div style="font-size: 0.82rem; color: var(--muted); margin-bottom: 0.9rem;">{{ coin.description }}</div>
+      <div class="flex items-center justify-between">
+        <div>
+          <div style="font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px;">Price</div>
+          <div class="mono" style="font-size: 1.1rem; font-weight: 700;
+            {% if coin.symbol == 'FLAG' %}color: var(--accent2);{% else %}color: var(--accent);{% endif %}">
+            ${{ "%.2f"|format(coin.price) }}
+          </div>
+        </div>
+        <form method="POST" action="{{ url_for('add_to_cart') }}">
+          <input type="hidden" name="coin_id" value="{{ coin.id }}">
+          <button type="submit" class="btn btn-primary btn-sm">+ Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card mt-3" style="border-color: #1e2d40; background: #0a1018;">
+  <div class="card-body" style="display:flex; align-items:center; gap: 1rem;">
+    <div style="font-size: 1.5rem;">🔒</div>
+    <div>
+      <div style="font-weight: 700; font-size: 0.9rem;">FLAG Token is price-locked at $1,000.00</div>
+      <div style="font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem;">
+        This ultra-rare governance token is rumored to unlock something special. 
+        Do you have what it takes to acquire it?
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

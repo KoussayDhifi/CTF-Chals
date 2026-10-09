@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Client Login — InsuranseHorizon{% endblock %}
+
+{% block extra_head %}
+<style>
+    .login-wrapper {
+        min-height: calc(100vh - 128px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1rem;
+        background: linear-gradient(160deg, var(--cream) 0%, #e8e0d2 100%);
+    }
+    .login-box {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 3rem 2.8rem;
+        width: 100%;
+        max-width: 440px;
+        box-shadow: 0 12px 48px rgba(11,31,58,.08);
+    }
+    .login-header { text-align: center; margin-bottom: 2.2rem; }
+    .login-logo {
+        width: 56px; height: 56px;
+        background: var(--navy);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px;
+        margin: 0 auto 1rem;
+    }
+    .login-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.6rem;
+        color: var(--navy);
+        margin-bottom: .3rem;
+    }
+    .login-header p { font-size: .88rem; color: var(--muted); }
+
+    .form-group { margin-bottom: 1.3rem; }
+    .form-group label {
+        display: block;
+        font-size: .82rem;
+        font-weight: 600;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--navy);
+        margin-bottom: .45rem;
+    }
+    .form-group input {
+        width: 100%;
+        padding: .75rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 6px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: .95rem;
+        color: var(--text);
+        background: var(--cream);
+        outline: none;
+        transition: border-color .2s, box-shadow .2s;
+    }
+    .form-group input:focus {
+        border-color: var(--navy);
+        box-shadow: 0 0 0 3px rgba(11,31,58,.07);
+        background: var(--white);
+    }
+
+    .btn-login {
+        width: 100%;
+        background: var(--navy);
+        color: var(--white);
+        border: none;
+        border-radius: 6px;
+        padding: .9rem;
+        font-family: 'DM Sans', sans-serif;
+        font-size: .95rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        cursor: pointer;
+        transition: background .2s;
+        margin-top: .5rem;
+    }
+    .btn-login:hover { background: var(--navy2); }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 1.6rem;
+        font-size: .82rem;
+        color: var(--muted);
+    }
+    .login-footer a { color: var(--navy); font-weight: 500; }
+
+    .security-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .4rem;
+        margin-top: 1.8rem;
+        padding-top: 1.4rem;
+        border-top: 1px solid var(--border);
+        font-size: .75rem;
+        color: var(--muted);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-box">
+        <div class="login-header">
+            <div class="login-logo">🛡</div>
+            <h1>Welcome Back</h1>
+            <p>Sign in to access your policy and claims dashboard</p>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Your username" autocomplete="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Your password" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn-login">Sign In →</button>
+        </form>
+
+        <div class="login-footer">
+            <p>Forgot your credentials? <a href="#">Contact support</a></p>
+        </div>
+
+        <div class="security-badge">
+            🔒 &nbsp; 256-bit TLS Encrypted &nbsp;|&nbsp; ISO 27001 Certified
+        </div>
+    </div>
+</div>
+{% endblock %}

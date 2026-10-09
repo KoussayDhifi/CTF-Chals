@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Archive of the Gate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/listener.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <h1>🜏 Archive of the Sealed Gate</h1>
+        <p>Fragments stolen from those who crossed the threshold</p>
+    </header>
+
+    <main class="archive">
+        {% if entries %}
+            {% for e in entries %}
+                <div class="entry">
+                    <div class="meta">
+                        <span>{{ e[1] }}</span>
+                    </div>
+
+                    <pre class="payload">{{ e[0] }}</pre>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty">The archive is silent… for now.</p>
+        {% endif %}
+    </main>
+
+</body>
+</html>

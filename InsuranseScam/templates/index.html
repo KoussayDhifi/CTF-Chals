@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block title %}InsuranseHorizon — Peace of Mind, Guaranteed{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ── HERO ── */
+    .hero {
+        background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #1a3a60 100%);
+        color: var(--white);
+        padding: 6rem 2rem 5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: -80px; right: -80px;
+        width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+    .hero-eyebrow {
+        font-size: .78rem;
+        font-weight: 600;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: .8rem;
+    }
+    .hero h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.2rem, 4vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 1.4rem;
+    }
+    .hero h1 em { font-style: normal; color: var(--gold2); }
+    .hero p {
+        color: rgba(255,255,255,.7);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        max-width: 480px;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+    .btn-primary {
+        background: var(--gold);
+        color: var(--navy);
+        font-weight: 700;
+        font-size: .9rem;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: .85rem 2rem;
+        border-radius: 5px;
+        transition: background .2s, transform .15s;
+        display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+    .btn-ghost {
+        color: rgba(255,255,255,.7);
+        font-size: .9rem;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255,255,255,.25);
+        padding-bottom: 2px;
+        transition: color .2s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+
+    /* Stats card */
+    .hero-card {
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(201,168,76,.2);
+        border-radius: 12px;
+        padding: 2.5rem;
+        backdrop-filter: blur(4px);
+    }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-item { text-align: center; }
+    .stat-num {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--gold2);
+    }
+    .stat-label {
+        font-size: .78rem;
+        color: rgba(255,255,255,.5);
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        margin-top: .2rem;
+    }
+    .stat-divider {
+        grid-column: 1/-1;
+        border: none;
+        border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .hero-notice {
+        margin-top: 1.5rem;
+        background: rgba(192,57,43,.15);
+        border: 1px solid rgba(192,57,43,.35);
+        border-radius: 6px;
+        padding: .9rem 1.1rem;
+        font-size: .83rem;
+        color: rgba(255,180,160,.9);
+        line-height: 1.6;
+    }
+    .hero-notice strong { color: #ff9e8a; }
+
+    /* ── FEATURES ── */
+    .features {
+        padding: 5rem 2rem;
+        background: var(--white);
+    }
+    .features-header { text-align: center; margin-bottom: 3.5rem; }
+    .features-header .eyebrow {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: .6rem;
+    }
+    .features-header h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        color: var(--navy);
+    }
+    .features-grid {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    .feature-card {
+        padding: 2rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        transition: box-shadow .2s, border-color .2s;
+    }
+    .feature-card:hover { box-shadow: 0 6px 24px rgba(11,31,58,.08); border-color: var(--gold); }
+    .feature-icon {
+        width: 48px; height: 48px;
+        background: var(--navy);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px;
+        margin-bottom: 1.2rem;
+    }
+    .feature-card h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        color: var(--navy);
+        margin-bottom: .6rem;
+    }
+    .feature-card p {
+        font-size: .9rem;
+        color: var(--muted);
+        line-height: 1.65;
+    }
+
+    /* ── CLAIMS NOTICE ── */
+    .claims-banner {
+        background: var(--navy);
+        color: var(--white);
+        padding: 3.5rem 2rem;
+        text-align: center;
+    }
+    .claims-banner h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.9rem;
+        margin-bottom: .9rem;
+    }
+    .claims-banner p {
+        color: rgba(255,255,255,.6);
+        font-size: .95rem;
+        max-width: 540px;
+        margin: 0 auto 1.8rem;
+        line-height: 1.65;
+    }
+    .rejection-list {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.8rem;
+    }
+    .rejection-tag {
+        background: rgba(192,57,43,.2);
+        border: 1px solid rgba(192,57,43,.4);
+        color: #ff9e8a;
+        font-size: .78rem;
+        letter-spacing: .06em;
+        padding: .35rem .9rem;
+        border-radius: 3px;
+        font-weight: 500;
+    }
+
+    @media (max-width: 820px) {
+        .hero-inner { grid-template-columns: 1fr; }
+        .features-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-inner">
+        <div>
+            <p class="hero-eyebrow">Trusted Since 2001</p>
+            <h1>Insurance that <em>works for you</em> — not against you.</h1>
+            <p>InsuranseHorizon provides comprehensive health and automotive coverage, with a dedicated team ensuring your claims are processed <em>fairly</em> and transparently.</p>
+            <div class="hero-actions">
+                <a href="/login" class="btn-primary">Access Your Account</a>
+                <a href="#" class="btn-ghost">Learn more →</a>
+            </div>
+        </div>
+        <div>
+            <div class="hero-card">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-num">240K+</div>
+                        <div class="stat-label">Active Policies</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">98.2%</div>
+                        <div class="stat-label">Satisfaction Rate*</div>
+                    </div>
+                    <hr class="stat-divider">
+                    <div class="stat-item">
+                        <div class="stat-num">$4.8B</div>
+                        <div class="stat-label">Claims Paid Out</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">22yr</div>
+                        <div class="stat-label">In Operation</div>
+                    </div>
+                </div>
+                <div class="hero-notice">
+                    <strong>⚠ Notice:</strong> Several clients have reported unusual delays and rejections. An internal review is pending. If you believe your claim was unfairly denied, <a href="/login" style="color:#ffa07a">log in</a> to review your policy.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="features-header">
+        <p class="eyebrow">Our Coverage</p>
+        <h2>Comprehensive Protection Plans</h2>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">❤️</div>
+            <h3>Health Insurance</h3>
+            <p>Full coverage for hospital stays, outpatient care, prescriptions, and specialist consultations. Subject to policy terms and internal review.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🚗</div>
+            <h3>Auto Insurance</h3>
+            <p>Comprehensive, collision, and liability coverage for your vehicle. Third-party claims processed within 3–7 business days.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏠</div>
+            <h3>Property Insurance</h3>
+            <p>Protect your home and valuables against natural disasters, theft, and accidental damage. Annual renewals apply.</p>
+        </div>
+    </div>
+</section>
+
+<section class="claims-banner">
+    <h2>Recent Claim Rejection Reasons</h2>
+    <p>Our policy team has cited the following internal constraints as grounds for recent claim denials. We assure you this is completely normal.</p>
+    <div class="rejection-list">
+        <span class="rejection-tag">Policy Clause 7.4.2</span>
+        <span class="rejection-tag">Pre-existing Condition</span>
+        <span class="rejection-tag">Procedural Non-compliance</span>
+        <span class="rejection-tag">Internal Review Pending</span>
+        <span class="rejection-tag">Administrative Oversight</span>
+    </div>
+    <a href="/login" class="btn-primary">View Your Claim Status</a>
+</section>
+{% endblock %}

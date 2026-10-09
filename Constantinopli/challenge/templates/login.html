@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter the Archive</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+<div class="auth-box">
+    <h1>🜏 Archive Access</h1>
+    <p class="subtitle">
+        Speak your name, and the gate shall open.
+    </p>
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Name" required>
+        <input type="password" name="password" placeholder="Secret Phrase" required>
+        <button type="submit">Enter</button>
+    </form>
+
+    <p class="link">
+        No mark yet?
+        <a href="/thirdphase/register">Inscribe Yourself</a>
+    </p>
+</div>
+
+</body>
+</html>

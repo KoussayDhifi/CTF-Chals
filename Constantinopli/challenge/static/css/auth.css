@@ -1,0 +1,90 @@
+:root {
+    --bg: #0b0615;
+    --panel: #140a2a;
+    --accent: #7a4cff;
+    --text: #e2dcff;
+    --muted: #a59ad6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b1038, var(--bg));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Georgia", serif;
+    color: var(--text);
+}
+
+.auth-box {
+    background: linear-gradient(180deg, #1a1033, var(--panel));
+    border: 1px solid #2d1b52;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    width: 360px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(122, 76, 255, 0.25);
+}
+
+.auth-box h1 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+form input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    background: #0d071c;
+    border: 1px solid #2d1b52;
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+form input::placeholder {
+    color: #7e73b8;
+}
+
+form button {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+}
+
+form button:hover {
+    background: #6a3cff;
+}
+
+.link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.link a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.link a:hover {
+    text-decoration: underline;
+}

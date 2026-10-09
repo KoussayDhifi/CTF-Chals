@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLAG</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #dvd {
+    position: absolute;
+    width: 500px;
+    height: 100px;
+    background: red;
+    color: white;
+    font-family: 'Impact', sans-serif;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="dvd">CyberQuest{Jad_alik?}</div>
+
+<script>
+  const dvd = document.getElementById("dvd");
+  let posX = 100;
+  let posY = 100;
+  let velX = 4; 
+  let velY = 3; 
+
+  function animate() {
+    posX += velX;
+    posY += velY;
+
+    const maxX = window.innerWidth - dvd.offsetWidth;
+    const maxY = window.innerHeight - dvd.offsetHeight;
+
+    if (posX <= 0 || posX >= maxX) velX *= -1;
+    if (posY <= 0 || posY >= maxY) velY *= -1;
+
+    dvd.style.left = posX + "px";
+    dvd.style.top = posY + "px";
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>

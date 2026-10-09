@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block title %}Source Code — InsuranseHorizon{% endblock %}
+
+{% block extra_head %}
+<style>
+    .source-header {
+        background: #0d1117;
+        border-bottom: 2px solid #4a9eff;
+        padding: 2rem;
+        color: var(--white);
+    }
+    .source-header-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .source-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        color: #4a9eff;
+    }
+    .source-header p { color: rgba(255,255,255,.45); font-size: .83rem; margin-top: .25rem; }
+
+    .source-body {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .source-notice {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem 1.3rem;
+        font-size: .85rem;
+        color: #664d03;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .routes-box {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 10px;
+        padding: 1.2rem 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .6rem;
+        align-items: center;
+    }
+    .routes-box .label {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.35);
+        margin-right: .4rem;
+    }
+    .route-tag {
+        font-family: 'Courier New', monospace;
+        font-size: .8rem;
+        background: #0d1117;
+        border: 1px solid #30363d;
+        color: #4a9eff;
+        padding: .25rem .7rem;
+        border-radius: 4px;
+    }
+    .route-tag.highlight {
+        border-color: #ffc107;
+        color: #ffc107;
+    }
+
+    .code-box {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .code-toolbar {
+        background: #161b22;
+        border-bottom: 1px solid #30363d;
+        padding: .7rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .code-toolbar .dots { display: flex; gap: .5rem; }
+    .code-toolbar .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #28c840; }
+    .code-toolbar .filename {
+        font-family: 'Courier New', monospace;
+        font-size: .82rem;
+        color: rgba(255,255,255,.5);
+        margin-left: .4rem;
+    }
+    .code-toolbar .badge-warn {
+        margin-left: auto;
+        background: rgba(255,68,68,.15);
+        border: 1px solid rgba(255,68,68,.3);
+        color: #ff6b6b;
+        font-size: .72rem;
+        font-weight: 600;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+        padding: .2rem .7rem;
+        border-radius: 3px;
+    }
+
+    pre {
+        margin: 0;
+        padding: 1.5rem;
+        overflow-x: auto;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: .83rem;
+        line-height: 1.7;
+        color: #e6edf3;
+        white-space: pre;
+        tab-size: 4;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="source-header">
+    <div class="source-header-inner">
+        <div>
+            <h1>&lt;/&gt; Application Source Code</h1>
+            <p>Exposed for debugging purposes — app.py</p>
+        </div>
+        <span class="badge" style="background:#ff4444;color:#fff">⚠ PUBLIC EXPOSURE</span>
+    </div>
+</div>
+
+<div class="source-body">
+
+    <div class="source-notice">
+        ⚠ <strong>Debug endpoint active.</strong> This page exposes the full server-side application code.
+        Passwords and flags are never stored in plaintext. Review the logic carefully.
+    </div>
+
+    <div class="routes-box">
+        <span class="label">Routes</span>
+        <span class="route-tag">/</span>
+        <span class="route-tag">/login</span>
+        <span class="route-tag">/dashboard</span>
+        <span class="route-tag">/admin</span>
+        <span class="route-tag highlight">/policies</span>
+        <span class="route-tag">/flag</span>
+        <span class="route-tag">/source</span>
+    </div>
+<div class="code-box">
+    <div class="code-toolbar">
+        <div class="dots">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+        </div>
+        <span class="filename">schema.sql</span>
+    </div>
+    <pre>CREATE TABLE users (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    username      TEXT NOT NULL UNIQUE,
+    password      TEXT NOT NULL,       -- SHA-1 hashed
+    role          TEXT NOT NULL DEFAULT 'user',
+    full_name     TEXT,
+    policy_number TEXT,
+    secret_token  TEXT                 -- internal use only
+);</pre>
+</div>
+    <div class="code-box">
+        <div class="code-toolbar">
+            <div class="dots">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+            </div>
+            <span class="filename">app.py</span>
+            <span class="badge-warn">⚠ Live Source</span>
+        </div>
+        <pre>{{ code }}</pre>
+    </div>
+
+</div>
+{% endblock %}

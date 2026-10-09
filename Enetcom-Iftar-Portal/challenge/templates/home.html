@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="beaver">🌙</div>
+
+  <div class="speech">
+    {% if is_admin %}
+      <div class="role">Role: ADMIN</div>
+      <p>
+        Mashallah… I sensed the night favors you.  
+        You have found your way to <strong>privileged grounds</strong>.
+      </p>
+      <p>
+        As promised, here is what awaits the keen observer 👇
+      </p>
+
+      <div class="flag">
+        {{ flag }}
+      </div>
+
+    {% else %}
+      <div class="role">Role: GUEST</div>
+      <p>
+        Peace be upon you, traveler.  
+        The lanterns glow, the night is serene, yet some paths are hidden…
+      </p>
+      <p>
+        I guard these secrets during Ramadhan, and you, my friend, are yet to uncover them.
+      </p>
+      <p class="warning">
+        ❌ No admin privileges detected — reflect, read, and return when the night grows wiser.
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="footer">
+    Enectom-Iftar Gateway 🌙
+  </div>
+</div>
